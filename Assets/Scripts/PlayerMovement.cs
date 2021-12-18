@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public float AttackCooldown;
     private float attackTimer;
     public float DashCooldown;
+    public Animator Anim;
+
     private float dashTimer;
     private Rigidbody rb;
     private Vector3 moveVector;
@@ -30,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Update()
     {
+        var xRot = Mathf.Clamp(rb.velocity.x * 5, -20, 20);
         attackTimer += Time.deltaTime;
         dashTimer += Time.deltaTime;
         moveVector = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
@@ -50,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if(rb.velocity.x > 0)
         {
-            PlayerMesh.eulerAngles = new Vector3(0, 90, 0);
+            PlayerMesh.eulerAngles = new Vector3(xRot, 90, 0);
         }
         else
         {
-            PlayerMesh.eulerAngles = new Vector3(0, -90, 0);
+            PlayerMesh.eulerAngles = new Vector3(-xRot, -90, 0);
         
         }
         if (Input.GetButtonDown("Attack"))
@@ -130,7 +133,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Stats.Stamina > 0)
         {
-            rb.AddRelativeForce(dir.normalized * (DashDistance * 100) * Time.deltaTime, ForceMode.Impulse);
+            Debug.Log(dir);
+            if(Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+            {
+                Anim.SetTrigger("Dash Forward");
+            }
+            else if (dir.y > 0)
+            {
+                Anim.SetTrigger("Dash Up");
+            }
+            else
+            {
+                Anim.SetTrigger("Dash Down");
+            }
+            rb.velocity = (dir.normalized * (DashDistance * 100) * Time.deltaTime);
             Stats.ConsumeStamina(DashCost);
 
         }
@@ -141,6 +157,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Stats.Stamina > 0)
         {
+            Anim.SetTrigger("Melee Attack");
             Debug.Log("Attack!");
             Stats.ConsumeStamina(AttackCost);
             AttackAnimation.SetTrigger("Attacking");
