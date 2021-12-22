@@ -6,53 +6,38 @@ public class PlayerAttack : MonoBehaviour
 {
     public enum WeaponType
     {
-        Melee,
-        AOE,
+        Sword,
+        Pulse,
         Gun
     }
-    public WeaponType Type = WeaponType.Melee;
+    public WeaponType Type = WeaponType.Sword;
+    public GameObject Sword;
+    public GameObject Gun;
+    public GameObject Pulsar;
     public GameObject MeleeWeapon;
-    public Animator AttackAnimation;
-    public float TapTime;
-    public float AttackCooldown;
-    private float attackTimer;
-    private float tapTimer;
 
 
     // Update is called once per frame
     void Update()
-    {
-        attackTimer += Time.deltaTime;
-        if (Input.touchCount == 0)
+    {   
+        if(Type == WeaponType.Pulse)
         {
-            return;
+            Pulsar.SetActive(true);
+            Sword.SetActive(false);
+            Gun.SetActive(false);
         }
-        Touch touch = Input.GetTouch(0); // get the touch
-        if(touch.phase == TouchPhase.Began)
+        else if (Type == WeaponType.Sword)
         {
-            tapTimer = 0;
-            
+            Pulsar.SetActive(false);
+            Sword.SetActive(true);
+            Gun.SetActive(false);
         }
-        tapTimer += Time.deltaTime;
-        if (touch.phase == TouchPhase.Ended)
+        else if (Type == WeaponType.Gun)
         {
-            if(tapTimer < TapTime)
-            {
-                Debug.Log($"Tapped, {tapTimer}");
-                if(attackTimer > AttackCooldown)
-                {
-                    Attack();
-                    
-                }
-            }
+            Pulsar.SetActive(false);
+            Sword.SetActive(false);
+            Gun.SetActive(true);
         }
-    }
-
-    public void Attack()
-    {
-        Debug.Log("Attack!");
-        AttackAnimation.SetTrigger("Attacking");
-        tapTimer = 0;
-        attackTimer = 0;
+        
     }
 }
