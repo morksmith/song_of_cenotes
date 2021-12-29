@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &57826959
 Transform:
   m_ObjectHideFlags: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f5317f0e06eb34c9aa1bad2e5b7db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyName: 
   Player: {fileID: 1529704460}
   MaxHealth: 2
   Health: 2
@@ -870,6 +871,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 75904efa292c8ef499ab71df426cf6ac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ce872986febcccd46aa8d4db554647ee, type: 2}
     - target: {fileID: 919132149155446097, guid: 75904efa292c8ef499ab71df426cf6ac, type: 3}
       propertyPath: m_Name
       value: Sword
@@ -6409,6 +6414,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6450,7 +6456,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 12
   m_Depth: -1
   m_CullingMask:
@@ -6475,12 +6481,38 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -16}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 704e14070bca94c43a73aa4e29504439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolutionScale: 1
+  colorDepth: 10
+  vertexPrecision: 7
+  cameraPositionPrecision: 10
+  triangleCullDistance: 150
+  triangleNearClipping: 0
+  fadeOut: 0
+  fadeMethod: 0
+  ditheringStrength: 0.1
+  affineDistortion: 1
+  enableColorDepth: 1
+  enableLetterboxing: 0
+  letterboxColor: {r: 0, g: 0, b: 0, a: 1}
+  xyAspectRatio: {x: 1, y: 1}
 --- !u!1 &982274424
 GameObject:
   m_ObjectHideFlags: 0
@@ -7301,6 +7333,7 @@ MonoBehaviour:
   Energy: 0
   StaminaCooldown: 0.2
   Damage: 1
+  MeleeAttack: {fileID: 0}
   HealthBar: {fileID: 1058112666}
   StaminaBar: {fileID: 1500953848}
   EnergyBars: []
@@ -7742,6 +7775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f5317f0e06eb34c9aa1bad2e5b7db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyName: 
   Player: {fileID: 1529704460}
   MaxHealth: 2
   Health: 2
@@ -7792,7 +7826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882638082}
   m_LocalRotation: {x: -0, y: 0.7071067, z: 0, w: -0.7071069}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 208553843}
@@ -7891,7 +7925,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e7176f1ebad744598eff9454441c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 1
   KnockBack: 2
+  Speed: 1
+  Type: 0
 --- !u!1001 &1965988436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8203,6 +8240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f5317f0e06eb34c9aa1bad2e5b7db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyName: 
   Player: {fileID: 1529704460}
   MaxHealth: 2
   Health: 2

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerControl : MonoBehaviour
 {
     public float MoveSpeed;
     public Stats Stats;
@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector3 moveVector;
     public TrailRenderer SwordTrail;
+    public GameObject BulletPrefab;
+    public GameObject PulsePrefab;
+    public GameObject BlastEffect;
 
 
     private void Start()
@@ -36,7 +39,21 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(PlayerAttack.Type == PlayerAttack.WeaponType.Gun)
+            {
+                PlayerAttack.Type = PlayerAttack.WeaponType.Pulse;
+            }
+            else if (PlayerAttack.Type == PlayerAttack.WeaponType.Pulse)
+            {
+                PlayerAttack.Type = PlayerAttack.WeaponType.Sword;
+            }
+            else if (PlayerAttack.Type == PlayerAttack.WeaponType.Sword)
+            {
+                PlayerAttack.Type = PlayerAttack.WeaponType.Gun;
+            }
+        }
         attackTimer += Time.deltaTime;
         dashTimer += Time.deltaTime;
         moveVector = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
@@ -75,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         {
             PlayerMesh.eulerAngles = new Vector3(xRot, 90, 0);
         }
-        else
+        else if(rb.velocity.x < 0)
         {
             PlayerMesh.eulerAngles = new Vector3(-xRot, -90, 0);
 
@@ -120,10 +137,20 @@ public class PlayerMovement : MonoBehaviour
         else if (PlayerAttack.Type == PlayerAttack.WeaponType.Gun)
         {
             Anim.SetTrigger("Gun Attack");
+            var newBullet = Instantiate(BulletPrefab, transform.position + new Vector3(0, 1, 0) + PlayerMesh.forward * 2, Quaternion.Euler(0, PlayerMesh.transform.eulerAngles.y, 0));
+            newBullet.GetComponent<Bullet>().Damage = Stats.Damage;
+            var newBlast = Instantiate(BlastEffect, transform.position + new Vector3(0, 1, 0) + PlayerMesh.forward * 2, transform.rotation);
+            newBlast.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+
         }
         else if (PlayerAttack.Type == PlayerAttack.WeaponType.Pulse)
         {
             Anim.SetTrigger("Pulse Attack");
+            var newPulse = Instantiate(PulsePrefab, transform.position + new Vector3(0, 0.6f, 0), transform.rotation);
+            newPulse.GetComponent<Pulse>().Damage = Stats.Damage;
+            var newBlast = Instantiate(BlastEffect, transform.position + new Vector3(0, 0.6f, 0), transform.rotation);
+
         }
         Debug.Log("Attack!");
         Stats.ConsumeStamina(AttackCost);

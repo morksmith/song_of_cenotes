@@ -18,6 +18,7 @@ public class Stats : MonoBehaviour
     public float StaminaCooldown;
     private float staminaTimer;
     public float Damage = 1;
+    public Attack MeleeAttack;
 
     public Slider HealthBar;
     public Slider StaminaBar;
@@ -30,6 +31,7 @@ public class Stats : MonoBehaviour
             var eBar = Instantiate(EnergyBarPrefab, EnergyBarParent.transform);
             EnergyBars.Add(eBar.GetComponent<Slider>());
         }
+        MeleeAttack.Damage = 1 * Damage;
         UpdateUI();
 
     }

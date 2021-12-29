@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public string EnemyName;
     public Transform Player;
     public float MaxHealth;
     public float Health;
@@ -28,6 +29,18 @@ public class Enemy : MonoBehaviour
         {
             Player.GetComponent<Stats>().TakeDamage(Damage);
             Player.GetComponent<Rigidbody>().AddRelativeForce((Player.position - transform.position) * (KnockBack * 1000) * Time.deltaTime, ForceMode.VelocityChange);
+        }
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        if(Health > dmg)
+        {
+            Health -= dmg;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }
