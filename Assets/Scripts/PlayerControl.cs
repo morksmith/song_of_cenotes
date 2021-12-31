@@ -132,6 +132,7 @@ public class PlayerControl : MonoBehaviour
         {
             Anim.SetTrigger("Melee Attack");
             SwordTrail.gameObject.GetComponent<TrailEnd>().StartTrail();
+            AttackAnimation.SetTrigger("Attacking");
 
         }
         else if (PlayerAttack.Type == PlayerAttack.WeaponType.Gun)
@@ -152,9 +153,8 @@ public class PlayerControl : MonoBehaviour
             var newBlast = Instantiate(BlastEffect, transform.position + new Vector3(0, 0.6f, 0), transform.rotation);
 
         }
-        Debug.Log("Attack!");
         Stats.ConsumeStamina(AttackCost);
-        AttackAnimation.SetTrigger("Attacking");
+        
         attackTimer = 0;
 
     }

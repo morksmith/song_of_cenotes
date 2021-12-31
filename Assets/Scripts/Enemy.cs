@@ -5,31 +5,69 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public string EnemyName;
-    public Transform Player;
+    public Transform Target;
+    public Transform EnemyMesh;
+    public bool LookAtPlayer = false;
+    public enum EnemyType
+    {
+        Follow,
+        Shoot,
+        Directional,
+        Float,
+        Proximity,
+        Mimic
+    }
+    public EnemyType Type = EnemyType.Follow;
     public float MaxHealth;
     public float Health;
     public float KnockBack = 100;
     public float Damage = 5;
     public float MoveSpeed = 5;
     private Rigidbody rb;
-
+    public float AttackSpeed = 2;
+    private float attackTimer;
+    public GameObject Projectile;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Target = GameObject.Find("Player").transform;
     }
 
     public void Update()
     {
-        rb.AddRelativeForce((Player.position - transform.position) * (MoveSpeed * 10) * Time.deltaTime);
+        if (LookAtPlayer)
+        {
+            EnemyMesh.LookAt(Target);
+        }
+        if (Type == EnemyType.Follow)
+        {
+            rb.AddRelativeForce((Target.position - transform.position) * (MoveSpeed * 10) * Time.deltaTime);
+        }
+        else if(Type == EnemyType.Shoot)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer > AttackSpeed)
+            {
+                var newProjectile = Instantiate(Projectile, transform.position, EnemyMesh.rotation);
+                newProjectile.GetComponent<Projectile>().Target = Target;
+                newProjectile.GetComponent<Projectile>().Damage = Damage;
+                newProjectile.GetComponent<Projectile>().KnockBack = KnockBack;
+                EnemyMesh.GetComponent<Animator>().SetTrigger("Attacking");
+                attackTimer = 0;
+            }
+            
+        }
+        
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform  == Player)
+        if(collision.transform  == Target)
         {
-            Player.GetComponent<Stats>().TakeDamage(Damage);
-            Player.GetComponent<Rigidbody>().AddRelativeForce((Player.position - transform.position) * (KnockBack * 1000) * Time.deltaTime, ForceMode.VelocityChange);
+            Target.GetComponent<Stats>().TakeDamage(Damage);
+            Target.GetComponent<Rigidbody>().AddRelativeForce((Target.position - transform.position) * (KnockBack * 1000) * Time.deltaTime, ForceMode.VelocityChange);
         }
+        
     }
 
     public void TakeDamage(float dmg)
