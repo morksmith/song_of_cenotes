@@ -14009,22 +14009,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 704e14070bca94c43a73aa4e29504439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionScale: 1
-  colorDepth: 25
-  vertexPrecision: 7
+  colorDepth: 32
+  vertexPrecision: 8
   cameraPositionPrecision: 10
   triangleCullDistance: 150
   triangleNearClipping: 0
   fadeOut: 0
   fadeMethod: 2
-  ditheringStrength: 0.1
+  ditheringStrength: 0
   affineDistortion: 0
-  enableColorDepth: 1
+  enableColorDepth: 0
   enableLetterboxing: 0
   letterboxColor: {r: 0, g: 0, b: 0, a: 1}
   xyAspectRatio: {x: 1, y: 1}
