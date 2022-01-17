@@ -85,7 +85,7 @@ ModelImporter:
       name: Melee Attack
       takeName: Diver 01
       internalID: 0
-      firstFrame: 60
+      firstFrame: 65
       lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
