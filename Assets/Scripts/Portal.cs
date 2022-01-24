@@ -51,6 +51,6 @@ public class Portal : MonoBehaviour
     {
         State = LockedState.Open;
         OpenObject.SetActive(true);
-        ClosedObject.SetActive(true);
+        ClosedObject.SetActive(false);
     }
 }
