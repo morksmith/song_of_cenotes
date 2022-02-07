@@ -15,6 +15,7 @@ public class Portal : MonoBehaviour
     public GameObject ClosedObject;
     public GameObject OpenObject;
     public GameObject LockedObject;
+    public Animator Animator;
     public Vector3 NewPlayerPosition;
 
     public LockedState State = LockedState.Closed;
@@ -50,7 +51,16 @@ public class Portal : MonoBehaviour
     public void OpenPortal()
     {
         State = LockedState.Open;
+        Animator.SetTrigger("Open");
         OpenObject.SetActive(true);
         ClosedObject.SetActive(false);
+    }
+
+    public void ClosePortal()
+    {
+        State = LockedState.Closed;
+        Animator.SetTrigger("Close");
+        OpenObject.SetActive(false);
+        ClosedObject.SetActive(true);
     }
 }

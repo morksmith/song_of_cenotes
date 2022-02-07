@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public GameManager Manager;
     public string EnemyName;
     public Transform Target;
     public Transform EnemyMesh;
@@ -31,13 +32,19 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Target = GameObject.Find("Player").transform;
+        Manager = GameObject.FindObjectOfType<GameManager>();
     }
 
     public void Update()
     {
+        
         if (LookAtPlayer)
         {
             EnemyMesh.LookAt(Target);
+        }
+        if (Manager.State != GameManager.GameState.Playing)
+        {
+            return;
         }
         if (Type == EnemyType.Follow)
         {

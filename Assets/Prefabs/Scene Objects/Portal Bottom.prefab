@@ -362,6 +362,7 @@ MonoBehaviour:
   ClosedObject: {fileID: 1315116360037106357}
   OpenObject: {fileID: 3209529158475272260}
   LockedObject: {fileID: 8583931278771518113}
+  Animator: {fileID: 8116507490998935245}
   NewPlayerPosition: {x: 0, y: 6.5, z: 0}
   State: 1
 --- !u!65 &1354043322828621490
@@ -614,7 +615,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: cfd92e015494f1446b16ea3ee79d790c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

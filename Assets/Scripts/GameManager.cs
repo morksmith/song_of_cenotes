@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public float EnemyCheckTime = 5;
     private float enemyTimer;
     public bool DoorsOpened = false;
+    public bool NewLevelLoaded = true;
     public enum GameState
     {
         Paused,
@@ -17,14 +18,20 @@ public class GameManager : MonoBehaviour
     }
     public GameState State = GameState.Playing;
     public Portal[] Portals;
+    public EnemySpawner[] EnemySpawners;
     public GameObject BlackSolid;
     public Vector3 NewPlayerPosition;
     private float step;
     private float colourStep;
     void Start()
     {
+
         Portals = GameObject.FindObjectsOfType<Portal>();
+        EnemySpawners = GameObject.FindObjectsOfType<EnemySpawner>();
+        LoadNewLevel();
         
+
+
     }
 
     // Update is called once per frame
@@ -65,6 +72,12 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                if(NewLevelLoaded == false)
+                {
+                    LoadNewLevel();
+                    DoorsOpened = false;
+                    NewLevelLoaded = true;
+                }
                 colourStep -= Time.deltaTime;
                 BlackSolid.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 0, 0, colourStep));
                 if (colourStep<= 0)
@@ -75,6 +88,7 @@ public class GameManager : MonoBehaviour
                     PlayerAnimator.speed = 1;
                     State = GameState.Playing;
                     BlackSolid.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 0, 0, 0));
+                    NewLevelLoaded = false;
 
                 }
             }
@@ -103,6 +117,20 @@ public class GameManager : MonoBehaviour
         State = GameState.Transition;
         PlayerAnimator.speed = 0;
         NewPlayerPosition = newPosition;
+    }
+
+    public void LoadNewLevel()
+    {
+        for (var i = 0; i < Portals.Length; i++)
+        {
+            Portals[i].ClosePortal();
+        }
+        for (var i = 0; i < EnemySpawners.Length; i++)
+        {
+            EnemySpawners[i].SpawnEnemy();
+        }
+
+
     }
 
 }
