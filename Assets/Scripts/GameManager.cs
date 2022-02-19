@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameState State = GameState.Playing;
     public Portal[] Portals;
     public EnemySpawner[] EnemySpawners;
+    public ObstacleSpawner[] ObstacleSpawners;
     public GameObject BlackSolid;
     public Vector3 NewPlayerPosition;
     private float step;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 
         Portals = GameObject.FindObjectsOfType<Portal>();
         EnemySpawners = GameObject.FindObjectsOfType<EnemySpawner>();
+        ObstacleSpawners = GameObject.FindObjectsOfType<ObstacleSpawner>();
         LoadNewLevel();
         
 
@@ -128,6 +130,10 @@ public class GameManager : MonoBehaviour
         for (var i = 0; i < EnemySpawners.Length; i++)
         {
             EnemySpawners[i].SpawnEnemy();
+        }
+        for (var i = 0; i < ObstacleSpawners.Length; i++)
+        {
+            ObstacleSpawners[i].SpawnObstacle();
         }
 
 
