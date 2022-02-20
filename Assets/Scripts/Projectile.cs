@@ -27,6 +27,10 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if (other.transform.tag == "Obstacle")
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

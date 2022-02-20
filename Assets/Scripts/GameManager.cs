@@ -1,10 +1,12 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject Player;
+    public int CurrentLevel = 1;
     public Animator PlayerAnimator;
     public float EnemyCheckTime = 5;
     private float enemyTimer;
@@ -19,17 +21,18 @@ public class GameManager : MonoBehaviour
     public GameState State = GameState.Playing;
     public Portal[] Portals;
     public EnemySpawner[] EnemySpawners;
+    public GameObject RoomLayout;
     public ObstacleSpawner[] ObstacleSpawners;
     public GameObject BlackSolid;
     public Vector3 NewPlayerPosition;
     private float step;
     private float colourStep;
+    private bool levelCleared = false;
+    public LevelSpawner LevelSpawn;
     void Start()
     {
 
-        Portals = GameObject.FindObjectsOfType<Portal>();
-        EnemySpawners = GameObject.FindObjectsOfType<EnemySpawner>();
-        ObstacleSpawners = GameObject.FindObjectsOfType<ObstacleSpawner>();
+        
         LoadNewLevel();
         
 
@@ -67,6 +70,10 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    if (!levelCleared)
+                    {
+                        ClearLevel();
+                    }
                     step += Time.deltaTime;
                     Player.transform.localPosition = Vector3.Lerp(Player.transform.localPosition, NewPlayerPosition, step * 0.02f);
                 }
@@ -91,6 +98,7 @@ public class GameManager : MonoBehaviour
                     State = GameState.Playing;
                     BlackSolid.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 0, 0, 0));
                     NewLevelLoaded = false;
+                    levelCleared = false;
 
                 }
             }
@@ -123,20 +131,43 @@ public class GameManager : MonoBehaviour
 
     public void LoadNewLevel()
     {
-        for (var i = 0; i < Portals.Length; i++)
+        LevelSpawn.SpawnLevel(CurrentLevel);
+        Portals = GameObject.FindObjectsOfType<Portal>();
+        EnemySpawners = GameObject.FindObjectsOfType<EnemySpawner>();
+        ObstacleSpawners = GameObject.FindObjectsOfType<ObstacleSpawner>();
+        if(Portals.Length > 0)
         {
-            Portals[i].ClosePortal();
+            for (var i = 0; i < Portals.Length; i++)
+            {
+                Portals[i].ClosePortal();
+            }
         }
-        for (var i = 0; i < EnemySpawners.Length; i++)
+        if(EnemySpawners.Length > 0)
         {
-            EnemySpawners[i].SpawnEnemy();
+            for (var i = 0; i < EnemySpawners.Length; i++)
+            {
+                EnemySpawners[i].SpawnEnemy();
+            }
         }
-        for (var i = 0; i < ObstacleSpawners.Length; i++)
+        if(ObstacleSpawners.Length > 0)
         {
-            ObstacleSpawners[i].SpawnObstacle();
+            for (var i = 0; i < ObstacleSpawners.Length; i++)
+            {
+                ObstacleSpawners[i].SpawnObstacle();
+            }
         }
+        
+    }
 
+    public void ClearLevel()
+    {
+        Destroy(RoomLayout);
+        Array.Clear(ObstacleSpawners, 0, ObstacleSpawners.Length);
+        Array.Clear(EnemySpawners, 0, EnemySpawners.Length);
+        Array.Clear(Portals, 0, Portals.Length);
+        levelCleared = true;
 
     }
+
 
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Upgrade
+  - Obstacle
   layers:
   - Default
   - TransparentFX

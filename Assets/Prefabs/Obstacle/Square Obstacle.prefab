@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7789683137112329835}
   - component: {fileID: 692770003775112428}
   - component: {fileID: 6535019878136548831}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square Obstacle
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,6 +162,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: eb6457aef5414754d8a8abf2fc4ce196, type: 3}
       propertyPath: m_Name
       value: Rock
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: eb6457aef5414754d8a8abf2fc4ce196, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb6457aef5414754d8a8abf2fc4ce196, type: 3}

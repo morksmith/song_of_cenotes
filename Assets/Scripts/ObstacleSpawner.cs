@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     public List<GameObject> Obstacles;
+    public GameObject RoomLayout;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,7 @@ public class ObstacleSpawner : MonoBehaviour
         if( willSpawn > 5)
         {
             var pick = Random.Range(0, Obstacles.Count);
-            Instantiate(Obstacles[pick], transform.position, transform.rotation);
+            Instantiate(Obstacles[pick], transform.position, transform.rotation, RoomLayout.transform);
         }
         
     }
