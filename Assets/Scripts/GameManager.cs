@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour
             if (enemyTimer > EnemyCheckTime)
             {
                 var enemiesInScene = GameObject.FindObjectsOfType<Enemy>();
-                if (enemiesInScene.Length <= 0)
+                var pickupsInScene = GameObject.FindObjectsOfType<Pickup>();
+                if (enemiesInScene.Length <= 0 && pickupsInScene.Length <= 0)
                 {
                     Debug.Log("No Enemies");
                     OpenDoors();

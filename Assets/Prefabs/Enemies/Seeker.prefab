@@ -4851,6 +4851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f5317f0e06eb34c9aa1bad2e5b7db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
   EnemyName: Seeker
   Target: {fileID: 0}
   EnemyMesh: {fileID: 7301089059383695733}
@@ -4859,10 +4860,12 @@ MonoBehaviour:
   MaxHealth: 2
   Health: 2
   KnockBack: 2
-  Damage: 1
+  Damage: 4
   MoveSpeed: 4
   AttackSpeed: 2
   Projectile: {fileID: 0}
+  LumenitePrefab: {fileID: 4286683068100115794, guid: 2af5842250559b741bfb5928d992d3b3, type: 3}
+  UpgradePrefab: {fileID: 0}
 --- !u!54 &7122465541277949635
 Rigidbody:
   m_ObjectHideFlags: 0

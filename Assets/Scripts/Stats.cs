@@ -19,6 +19,7 @@ public class Stats : MonoBehaviour
     private float staminaTimer;
     public float Damage = 1;
     public float Lumenite = 0;
+    public float LumeniteDrop = 1;
     public Attack MeleeAttack;
 
     public Slider HealthBar;

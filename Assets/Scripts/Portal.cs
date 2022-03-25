@@ -36,7 +36,7 @@ public class Portal : MonoBehaviour
         
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if(other.GetComponent<PlayerControl>() != null)
         {

@@ -7,6 +7,13 @@ public class Pickup : MonoBehaviour
     private Transform player;
     private Vector3 newPosition;
     private bool moveToPlayer = false;
+    public enum PickupType
+    {
+        Lumenite,
+        Health,
+        Upgrade
+    }
+    public PickupType Type;
     public float StationaryTime = 2;
     private float timer = 0;
     // Start is called before the first frame update
@@ -37,15 +44,14 @@ public class Pickup : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(transform.position, player.position) > 0.25f)
-            {
-                transform.position = Vector3.Lerp(transform.position, player.position, Time.deltaTime * (10/ Vector3.Distance(transform.position, player.position)));
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            transform.position = Vector3.Lerp(transform.position, player.position, Time.deltaTime * (20 / Vector3.Distance(transform.position, player.position)));
+
         }
-        
+        if (Vector3.Distance(transform.position, player.position) < 0.3f)
+        {
+            Destroy(gameObject);
+        }
+
+
     }
 }

@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
     public float AttackSpeed = 2;
     private float attackTimer;
     public GameObject Projectile;
+    public GameObject LumenitePrefab;
+    public GameObject UpgradePrefab;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -85,6 +87,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            var lumeniteDrop = Random.Range(Target.GetComponent<Stats>().LumeniteDrop, Target.GetComponent<Stats>().LumeniteDrop * 5);
+            for(var i = 0; i < lumeniteDrop; i++)
+            {
+                Instantiate(LumenitePrefab, transform.position, Quaternion.Euler(0,0,0));
+            }
             Destroy(gameObject);
         }
     }
