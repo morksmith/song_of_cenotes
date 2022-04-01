@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(State == GameState.Paused)
+        {
+            return;
+        }
         if (!DoorsOpened)
         {
             enemyTimer += Time.deltaTime;
@@ -64,7 +68,7 @@ public class GameManager : MonoBehaviour
             var playerDist = Vector3.Distance(Player.transform.position, NewPlayerPosition);
             if(playerDist > 0.2f)
             {
-                colourStep += Time.deltaTime;
+                colourStep += Time.deltaTime * 2;
                 if(colourStep < 1.1f)
                 {
                     BlackSolid.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 0, 0, colourStep));
@@ -76,7 +80,7 @@ public class GameManager : MonoBehaviour
                         ClearLevel();
                     }
                     step += Time.deltaTime;
-                    Player.transform.localPosition = Vector3.Lerp(Player.transform.localPosition, NewPlayerPosition, step * 0.02f);
+                    Player.transform.localPosition = Vector3.Lerp(Player.transform.localPosition, NewPlayerPosition, step * 0.04f);
                 }
                 
             }
@@ -88,7 +92,7 @@ public class GameManager : MonoBehaviour
                     DoorsOpened = false;
                     NewLevelLoaded = true;
                 }
-                colourStep -= Time.deltaTime;
+                colourStep -= Time.deltaTime * 2;
                 BlackSolid.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 0, 0, colourStep));
                 if (colourStep<= 0)
                 {
@@ -104,9 +108,11 @@ public class GameManager : MonoBehaviour
                 }
             }
             
+            
 
 
         }
+       
 
     }
 
@@ -163,6 +169,14 @@ public class GameManager : MonoBehaviour
     public void ClearLevel()
     {
         Destroy(RoomLayout);
+        var projectiles = GameObject.FindObjectsOfType<Projectile>();
+        if(projectiles.Length > 0)
+        {
+            for(var x = 0; x < projectiles.Length; x++)
+            {
+                Destroy(projectiles[x].transform);
+            }
+        }
         Array.Clear(ObstacleSpawners, 0, ObstacleSpawners.Length);
         Array.Clear(EnemySpawners, 0, EnemySpawners.Length);
         Array.Clear(Portals, 0, Portals.Length);

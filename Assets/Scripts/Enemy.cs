@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     public GameObject Projectile;
     public GameObject LumenitePrefab;
     public GameObject UpgradePrefab;
+    public GameObject HealthPrefab;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,15 +40,19 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        
+       
+
         if (LookAtPlayer)
         {
             EnemyMesh.LookAt(Target);
         }
+
         if (Manager.State != GameManager.GameState.Playing)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             return;
         }
+
         if (Type == EnemyType.Follow)
         {
             rb.AddRelativeForce((Target.position - transform.position) * (MoveSpeed * 10) * Time.deltaTime);
@@ -81,16 +86,28 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        var stats = Target.GetComponent<Stats>();
+        stats.Energy += 1 * stats.EnergyGain;
         if(Health > dmg)
         {
             Health -= dmg;
         }
         else
         {
-            var lumeniteDrop = Random.Range(Target.GetComponent<Stats>().LumeniteDrop, Target.GetComponent<Stats>().LumeniteDrop * 5);
+            var healthDrop = Random.Range(0, 5);
+            var lumeniteDrop = Mathf.CeilToInt(Random.Range(1, 5) * stats.LumeniteDrop);
+            var upgradeDrop = Random.Range(0, 100);
             for(var i = 0; i < lumeniteDrop; i++)
             {
                 Instantiate(LumenitePrefab, transform.position, Quaternion.Euler(0,0,0));
+            }
+            if( healthDrop == 1)
+            {
+                Instantiate(HealthPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+            }
+            if(upgradeDrop < stats.UpgradeChance)
+            {
+                Instantiate(UpgradePrefab, transform.position, Quaternion.Euler(0, 0, 0));
             }
             Destroy(gameObject);
         }

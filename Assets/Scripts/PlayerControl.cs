@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public float MoveSpeed;
     public Stats Stats;
     public float DashDistance;
     public float DashCost = 2;
     public float AttackCost = 2;
     public Transform PlayerMesh;
-    //public FloatingJoystick Joystick;
-    //private Vector3 fp;   //First touch position
-    //private Vector3 lp;   //Last touch position
-    //public float SwipeTime;
-    //private float swipeTimer;
-    //public float SwipeDistance;  //minimum distance for a swipe to be registered
+    public GameManager Manager;
     public Animator AttackAnimation;
     public float AttackCooldown;
     private float attackTimer;
@@ -30,6 +24,8 @@ public class PlayerControl : MonoBehaviour
     public GameObject PulsePrefab;
     public GameObject BlastEffect;
 
+    private bool startDash = false;
+
 
     private void Start()
     {
@@ -39,6 +35,12 @@ public class PlayerControl : MonoBehaviour
 
     public void Update()
     {
+        if(Manager.State == GameManager.GameState.Paused)
+        {
+            
+            return;
+            
+        }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(PlayerAttack.Type == PlayerAttack.WeaponType.Gun)
@@ -65,9 +67,7 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (dashTimer > DashCooldown)
                     {
-                        Dash(moveVector);
-                        attackTimer = 0;
-                        dashTimer = 0;
+                        startDash = true;
                     }
 
                 }
@@ -86,8 +86,22 @@ public class PlayerControl : MonoBehaviour
     }
     public void FixedUpdate()
     {
+        if (Manager.State == GameManager.GameState.Paused)
+        {
+
+            return;
+
+        }
+        if (startDash)
+        {
+            var newVelocity = (moveVector.normalized * (DashDistance * 50) * Time.deltaTime);
+            Dash(newVelocity);
+            attackTimer = 0;
+            dashTimer = 0;
+            startDash = false;
+        }
         var xRot = Mathf.Clamp(rb.velocity.x * 10, -20, 20);
-        rb.AddRelativeForce(moveVector * (MoveSpeed * 10) * Time.deltaTime, ForceMode.VelocityChange);
+        rb.AddRelativeForce(moveVector * (Stats.MoveSpeed * 10) * Time.deltaTime, ForceMode.VelocityChange);
         if (rb.velocity.x > 0)
         {
             PlayerMesh.eulerAngles = new Vector3(xRot, 90, 0);
@@ -121,7 +135,7 @@ public class PlayerControl : MonoBehaviour
         {
             Anim.SetTrigger("Dash Down");
         }
-        rb.velocity = (dir.normalized * (DashDistance * 100) * Time.deltaTime);
+        rb.velocity = dir;
         Stats.ConsumeStamina(DashCost);
 
     }

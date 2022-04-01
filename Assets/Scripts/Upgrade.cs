@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class Upgrade : MonoBehaviour
 {
@@ -64,5 +66,14 @@ public class Upgrade : MonoBehaviour
         {
             PlayerStats.MaxHealth += UpgradeAmount;
         }
+        if (UpgradeStat == StatUpgrades.Stamina)
+        {
+            PlayerStats.MaxStamina += UpgradeAmount;
+        }
+        if (UpgradeStat == StatUpgrades.MoveSpeed)
+        {
+            PlayerStats.MoveSpeed += UpgradeAmount;
+        }
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }

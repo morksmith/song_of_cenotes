@@ -9,9 +9,20 @@ public class Projectile : MonoBehaviour
     public float Damage;
     public float KnockBack;
 
+    private GameManager gm;
+
     // Update is called once per frame
+
+    private void Start()
+    {
+        gm = GameObject.FindObjectOfType<GameManager>();
+    }
     void Update()
     {
+        if(gm.State != GameManager.GameState.Playing)
+        {
+            return;
+        }
         transform.position += transform.forward * Speed * Time.deltaTime;
     }
 

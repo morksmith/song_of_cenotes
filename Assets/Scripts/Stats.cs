@@ -2,26 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Stats : MonoBehaviour
 {
     public float MaxHealth;
     public float Health;
     public float MaxStamina;
+    public float Damage;
     public float Stamina;
     public float StaminaRefill;
+    public float MoveSpeed;
     public GameObject EnergyBarParent;
     public GameObject EnergyBarPrefab;
     public float EnergySlots = 3;
     public float MaxEnergy;
     public float Energy;
+    public float EnergyGain = 1;
     public float StaminaCooldown;
     private float staminaTimer;
-    public float Damage = 1;
     public float Lumenite = 0;
     public float LumeniteDrop = 1;
+    public float UpgradeChance = 1;
+    public float HealthChance = 1;
     public Attack MeleeAttack;
-
+    public TextMeshProUGUI LumeniteCount;
     public Slider HealthBar;
     public Slider StaminaBar;
     public List<Slider> EnergyBars;
@@ -71,6 +76,7 @@ public class Stats : MonoBehaviour
             var singleBarTotal = MaxEnergy / EnergySlots;
             EnergyBars[i].value = (Energy / singleBarTotal) - i;
         }
+        LumeniteCount.text = PlayerPrefs.GetFloat("Lumenite").ToString();
     }
 
     public void ConsumeStamina(float i)
@@ -82,6 +88,14 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float d)
     {
         Health -= d;
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
+    }
+
+    public void AddLumenite()
+    {
+        var currentLumenite = PlayerPrefs.GetFloat("Lumenite");
+        PlayerPrefs.SetFloat("Lumenite", currentLumenite + 1);
+        UpdateUI();
     }
 
 }

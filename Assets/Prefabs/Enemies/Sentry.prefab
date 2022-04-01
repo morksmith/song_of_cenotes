@@ -4865,7 +4865,8 @@ MonoBehaviour:
   AttackSpeed: 2
   Projectile: {fileID: 3734720074106012748, guid: 8a8271818c6317049b268adc357df79b, type: 3}
   LumenitePrefab: {fileID: 4286683068100115794, guid: 2af5842250559b741bfb5928d992d3b3, type: 3}
-  UpgradePrefab: {fileID: 0}
+  UpgradePrefab: {fileID: 8520077414684234582, guid: 6704cdc4b9262774d9d51fa0559451fd, type: 3}
+  HealthPrefab: {fileID: 3364417249728663148, guid: 0f8c8ce05697e2149b997b88e53f0f07, type: 3}
 --- !u!54 &1237660471503779139
 Rigidbody:
   m_ObjectHideFlags: 0
